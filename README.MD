@@ -22,7 +22,7 @@ MWC Security Authentication Server是一个基于Spring Boot、Spring Security�
 ## clone项目
 
 ```bash
-git clone https://github.com/reebake/mwc-security-authentication-server.git
+git clone https://github.com/huadahuang1983/mwc-security-authentication-server.git
 ```
 
 ## Maven 引入
