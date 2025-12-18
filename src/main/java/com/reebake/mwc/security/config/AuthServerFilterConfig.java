@@ -37,7 +37,7 @@ public class AuthServerFilterConfig {
     }
 
     @Bean
-    public SecurityFilterChain authenticationSecurityFilterChain(HttpSecurity http, LoginAuthenticationFilter loginAuthenticationFilter,
+    public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http, LoginAuthenticationFilter loginAuthenticationFilter,
                                                    JwtLogoutSuccessHandler jwtLogoutSuccessHandler) throws Exception {
         log.info("config login authentication filter ...");
         http.securityMatcher("/api/auth/login", "/api/auth/logout", "/api/auth/refresh")
