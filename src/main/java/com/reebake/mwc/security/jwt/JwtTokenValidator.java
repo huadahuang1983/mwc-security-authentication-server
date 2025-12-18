@@ -11,13 +11,11 @@ import java.text.ParseException;
 import java.util.Date;
 
 public class JwtTokenValidator {
-    private final PublicKey publicKey;
     private final JWSVerifier verifier;
     private final String issuer;
 
     public JwtTokenValidator(JwtProperties jwtProperties, PublicKey publicKey) {
         this.issuer = jwtProperties.getIssuer();
-        this.publicKey = publicKey;
         this.verifier = createVerifier(publicKey);
     }
 
@@ -73,4 +71,5 @@ public class JwtTokenValidator {
             throw new JwtValidationException("Failed to parse JWT token", e);
         }
     }
+
 }

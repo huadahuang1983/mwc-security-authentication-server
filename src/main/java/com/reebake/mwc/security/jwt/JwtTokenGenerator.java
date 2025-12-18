@@ -6,26 +6,18 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Map;
 
 public class JwtTokenGenerator {
-    private final PrivateKey privateKey;
-    private final PublicKey publicKey;
     private final JWSSigner signer;
     private final JwtProperties jwtProperties;
-    private final JwtTokenValidator tokenValidator;
 
-    public JwtTokenGenerator(JwtProperties jwtProperties, PrivateKey privateKey, PublicKey publicKey) {
+    public JwtTokenGenerator(JwtProperties jwtProperties, PrivateKey privateKey) {
         this.jwtProperties = jwtProperties;
-        this.privateKey = privateKey;
-        this.publicKey = publicKey;
         this.signer = createSigner(privateKey);
-        this.tokenValidator = new JwtTokenValidator(jwtProperties, publicKey);
     }
 
     private JWSSigner createSigner(PrivateKey privateKey) {
@@ -66,12 +58,4 @@ public class JwtTokenGenerator {
         }
     }
 
-    public String generateToken(String subject) {
-        return generateToken(subject, Map.of());
-    }
-
-    public JWTClaimsSet getClaims(String token) throws ParseException {
-        SignedJWT signedJWT = SignedJWT.parse(token);
-        return signedJWT.getJWTClaimsSet();
-    }
 }

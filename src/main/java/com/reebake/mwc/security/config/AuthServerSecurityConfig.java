@@ -39,7 +39,7 @@ public class AuthServerSecurityConfig {
 
     @Bean
     public JwtTokenGenerator jwtTokenGenerator() {
-        return new JwtTokenGenerator(jwtProperties, privateKey, publicKey);
+        return new JwtTokenGenerator(jwtProperties, privateKey);
     }
 
     @Bean
@@ -65,7 +65,7 @@ public class AuthServerSecurityConfig {
     }
 
     @Bean
-    public LoginAuthenticationSuccessHandler loginAuthenticationSuccessHandler(JwtTokenGenerator jwtTokenGenerator, AuthenticationService authenticationService) {
+    public LoginAuthenticationSuccessHandler loginAuthenticationSuccessHandler(AuthenticationService authenticationService) {
         return new LoginAuthenticationSuccessHandler(authenticationService, objectMapper);
     }
 

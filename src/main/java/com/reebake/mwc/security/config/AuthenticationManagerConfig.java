@@ -22,7 +22,7 @@ public class AuthenticationManagerConfig {
 
     @Bean
     @ConditionalOnMissingBean(AuthenticationManager.class)
-    AuthenticationManager authenticationManager() throws Exception {
+    AuthenticationManager authenticationManager() {
         ProviderManager authenticationManager = new ProviderManager(authenticationProviders);
         authenticationManager.setAuthenticationEventPublisher(authenticationEventPublisher);
         return authenticationManager;
