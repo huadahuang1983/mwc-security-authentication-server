@@ -8,6 +8,7 @@ import com.reebake.mwc.security.jwt.JwtTokenValidator;
 import com.reebake.mwc.security.handler.TokenBlacklist;
 import com.reebake.mwc.security.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.HashMap;
@@ -34,6 +35,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthResponse refreshToken(String refreshToken) {
         if (tokenBlacklist.isTokenBlacklisted(refreshToken)) {
             throw new RuntimeException("Refresh token has been revoked");
+        }
+
+        if(!tokenValidator.validateToken(refreshToken)) {
+            throw new BadCredentialsException("Token Invalid");
         }
 
         String tokenType = tokenValidator.getClaim(refreshToken, "type", String.class);
