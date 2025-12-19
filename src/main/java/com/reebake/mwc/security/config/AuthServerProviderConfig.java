@@ -1,5 +1,7 @@
 package com.reebake.mwc.security.config;
 
+import com.reebake.mwc.security.captcha.CaptchaService;
+import com.reebake.mwc.security.captcha.CaptchaProperties;
 import com.reebake.mwc.security.handler.UsernameLoginAuthenticationProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +14,12 @@ public class AuthServerProviderConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public UsernameLoginAuthenticationProvider usernameLoginAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        return new UsernameLoginAuthenticationProvider(userDetailsService, passwordEncoder);
+    public UsernameLoginAuthenticationProvider usernameLoginAuthenticationProvider(
+            UserDetailsService userDetailsService, 
+            PasswordEncoder passwordEncoder, 
+            CaptchaService captchaService,
+            CaptchaProperties captchaProperties) {
+        return new UsernameLoginAuthenticationProvider(userDetailsService, passwordEncoder, captchaService, captchaProperties);
     }
 
 }

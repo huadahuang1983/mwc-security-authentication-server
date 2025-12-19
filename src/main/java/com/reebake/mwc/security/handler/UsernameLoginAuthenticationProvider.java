@@ -1,5 +1,7 @@
 package com.reebake.mwc.security.handler;
 
+import com.reebake.mwc.security.captcha.CaptchaService;
+import com.reebake.mwc.security.captcha.CaptchaProperties;
 import com.reebake.mwc.security.dto.LoginRequest;
 import com.reebake.mwc.security.model.User;
 import com.reebake.mwc.security.model.UsernameLoginAuthenticationToken;
@@ -18,11 +20,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class UsernameLoginAuthenticationProvider implements AuthenticationProvider {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final CaptchaService captchaService;
+    private final CaptchaProperties captchaProperties;
     private UserDetailsChecker userDetailsChecker = new DefaultPreAuthenticationChecks();
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         LoginRequest loginRequest = (LoginRequest) authentication.getCredentials();
+        
+        // 如果启用了验证码功能，验证验证码
+        if (captchaProperties.isEnabled()) {
+            if (!captchaService.validateCaptcha(loginRequest.getCaptchaId(), loginRequest.getCaptcha())) {
+                throw new BadCredentialsException("invalid captcha");
+            }
+        }
+        
         String username = loginRequest.getUsername();
         User user = (User) userDetailsService.loadUserByUsername(username);
 

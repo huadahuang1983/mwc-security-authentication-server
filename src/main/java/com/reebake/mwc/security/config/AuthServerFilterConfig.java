@@ -42,11 +42,11 @@ public class AuthServerFilterConfig {
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http, LoginAuthenticationFilter loginAuthenticationFilter,
                                                    JwtLogoutSuccessHandler jwtLogoutSuccessHandler) throws Exception {
         log.info("config login authentication filter ...");
-        http.securityMatcher("/api/auth/login", "/api/auth/logout", "/api/auth/refresh")
+        http.securityMatcher("/api/auth/*")
             .csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/api/auth/refresh").permitAll()
+                    .requestMatchers("/api/auth/*").permitAll()
                 .anyRequest().authenticated()
             ).logout(logout -> logout.logoutUrl("/api/auth/logout").logoutSuccessHandler(jwtLogoutSuccessHandler))
             ;

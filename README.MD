@@ -76,6 +76,8 @@ mwc.jwt.expiration-time-in-minutes=30    # 访问令牌有效期（分钟）
 - `POST /api/auth/login` - 用户登录
 - `POST /api/auth/refresh` - 刷新访问令牌
 - `POST /api/auth/logout` - 用户登出
+- `GET /api/auth/captcha` - 获取验证码
+
 
 ## 自定义扩展
 
@@ -134,6 +136,7 @@ public class CustomLoginAuthenticationSuccessHandler implements LoginAuthenticat
 3. **返回响应**：返回包含访问令牌、刷新令牌和用户信息的JSON响应
 5. **Token刷新**：当访问令牌过期时，使用刷新令牌请求新的访问令牌
 6. **用户登出**：发送POST请求到`/api/auth/logout`，使当前令牌失效
+7. **验证码**：支持验证码登录，配置验证码属性后即可使用
 
 ## 数据传输对象(DTOs)
 
