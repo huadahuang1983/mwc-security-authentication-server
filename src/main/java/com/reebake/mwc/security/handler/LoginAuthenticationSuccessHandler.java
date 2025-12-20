@@ -15,8 +15,8 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    private final AuthenticationService authenticationService;
-    private final ObjectMapper objectMapper;
+    protected final AuthenticationService authenticationService;
+    protected final ObjectMapper objectMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -27,5 +27,6 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
         response.setContentType("application/json");
         response.getWriter().write(objectMapper.writeValueAsString(authResponse));
     }
+
 
 }
