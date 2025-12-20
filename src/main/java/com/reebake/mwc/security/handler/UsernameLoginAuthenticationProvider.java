@@ -30,8 +30,8 @@ public class UsernameLoginAuthenticationProvider implements AuthenticationProvid
         
         // 如果启用了验证码功能，验证验证码
         if (captchaProperties.isEnabled()) {
-            if (!captchaService.validateCaptcha(loginRequest.getCaptchaId(), loginRequest.getCaptcha())) {
-                throw new BadCredentialsException("invalid captcha");
+            if (!captchaService.validateCaptcha(loginRequest.getCaptchaId(), loginRequest.getCaptchaCode())) {
+                throw new BadCredentialsException("invalid captcha code");
             }
         }
         

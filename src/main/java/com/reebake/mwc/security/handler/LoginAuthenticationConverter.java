@@ -1,6 +1,5 @@
 package com.reebake.mwc.security.handler;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reebake.mwc.security.dto.LoginRequest;
 import com.reebake.mwc.security.model.UsernameLoginAuthenticationToken;
@@ -9,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationConverter;
+import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 public class LoginAuthenticationConverter implements AuthenticationConverter {
@@ -17,14 +17,8 @@ public class LoginAuthenticationConverter implements AuthenticationConverter {
     @Override
     @SneakyThrows
     public Authentication convert(HttpServletRequest request) {
-        JsonNode root = objectMapper.readTree(request.getInputStream());
-        if(root.has("username")) {
-            String username = root.get("username").asText();
-            String password = root.get("password").asText();
-
-            LoginRequest loginRequest = new LoginRequest();
-            loginRequest.setUsername(username);
-            loginRequest.setPassword(password);
+        LoginRequest loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
+        if(StringUtils.hasText(loginRequest.getUsername())) {
             return new UsernameLoginAuthenticationToken(loginRequest.getUsername(), loginRequest);
         }
         return null;
