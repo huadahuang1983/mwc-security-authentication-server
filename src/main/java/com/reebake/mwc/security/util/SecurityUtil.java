@@ -13,7 +13,7 @@ public class SecurityUtil {
             return null;
         }
         if (token.startsWith(BEARER_PREFIX)) {
-            token = token.substring(7);
+            token = token.substring(BEARER_PREFIX.length());
         }
         return token;
     }

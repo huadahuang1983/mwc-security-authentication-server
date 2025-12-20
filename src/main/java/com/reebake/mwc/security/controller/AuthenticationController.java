@@ -4,8 +4,6 @@ import com.reebake.mwc.security.captcha.CaptchaService;
 import com.reebake.mwc.security.captcha.CaptchaProperties;
 import com.reebake.mwc.security.dto.AuthResponse;
 import com.reebake.mwc.security.service.AuthenticationService;
-import com.reebake.mwc.security.util.SecurityUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +26,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<AuthResponse> refreshToken(HttpServletRequest request) {
-        String refreshToken = SecurityUtil.extractAuthentication(request);
+    public ResponseEntity<AuthResponse> refreshToken(@RequestHeader("Refresh-Token") String refreshToken) {
         AuthResponse authResponse = authenticationService.refreshToken(refreshToken);
         return ResponseEntity.ok(authResponse);
     }
