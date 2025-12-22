@@ -1,1 +1,1 @@
-config.com.reebake.mwcs.security.AuthServerAutoConfiguration
+com.reebake.mwcs.security.config.AuthServerAutoConfiguration
