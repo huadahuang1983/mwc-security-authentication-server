@@ -1,5 +1,6 @@
 package com.reebake.mwcs.security.config;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.reebake.mwcs.security.filter.LoginAuthenticationFilter;
 import com.reebake.mwcs.security.handler.TokenLogoutSuccessHandler;
 import com.reebake.mwcs.security.handler.LoginAuthenticationConverter;
@@ -42,11 +43,12 @@ public class AuthServerFilterConfig {
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http, LoginAuthenticationFilter loginAuthenticationFilter,
                                                    TokenLogoutSuccessHandler tokenLogoutSuccessHandler) throws Exception {
         log.info("config login authentication filter ...");
-        http.securityMatcher("/api/auth/*")
+        String[] urls = new String[]{"/api/auth/login", "/api/auth/logout", "/api/auth/refresh", "/api/auth/captcha", "/api/auth/send-sms-code"};
+        http.securityMatcher(urls)
             .csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/api/auth/*").permitAll()
+                    .requestMatchers(urls).permitAll()
                 .anyRequest().authenticated()
             ).logout(logout -> logout.logoutUrl("/api/auth/logout").logoutSuccessHandler(tokenLogoutSuccessHandler))
             ;
