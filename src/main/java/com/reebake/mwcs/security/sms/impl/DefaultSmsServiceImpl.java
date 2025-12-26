@@ -1,6 +1,7 @@
 package com.reebake.mwcs.security.sms.impl;
 
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.BooleanUtil;
 import com.reebake.mwcs.security.sms.SmsCodeStore;
 import com.reebake.mwcs.security.sms.SmsProperties;
 import com.reebake.mwcs.security.sms.SmsService;
@@ -54,6 +55,10 @@ public class DefaultSmsServiceImpl implements SmsService {
     
     @Override
     public boolean validateSmsCode(String phoneNumber, String smsCode) {
+        if(BooleanUtil.isFalse(smsProperties.isEnabled())) {
+            // 未启用状态下调用认证返回 true
+            return true;
+        }
         return smsCodeStore.validateSmsCode(phoneNumber, smsCode);
     }
 
